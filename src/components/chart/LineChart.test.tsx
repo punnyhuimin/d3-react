@@ -86,7 +86,7 @@ describe('LineChart', () => {
   it('falls back to a note when there is nothing to plot', () => {
     render(<LineChart points={[]} />);
 
-    expect(screen.getByText(/no categories to plot/i)).toBeInTheDocument();
+    expect(screen.getByText(/no categories in this range/i)).toBeInTheDocument();
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 });

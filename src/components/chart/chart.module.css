@@ -142,6 +142,95 @@
   overflow-wrap: anywhere;
 }
 
+/* ---- Summary strip ---- */
+
+.summary {
+  margin-top: var(--space-4);
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.summaryHint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.summaryPlot {
+  width: 100%;
+}
+
+/* The same two-path treatment as the main chart, at reduced weight — context, not the reading. */
+.summaryLine {
+  fill: none;
+  stroke: var(--series-1);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+
+.summaryGapLine {
+  fill: none;
+  stroke: var(--series-1);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 3 4;
+  opacity: 0.35;
+}
+
+.reset {
+  padding: 3px var(--space-2);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.reset:hover:not(:disabled) {
+  border-color: var(--baseline);
+  color: var(--text-primary);
+}
+
+.reset:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.reset:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/*
+ * D3 writes these nodes itself, so they are matched globally from inside the scoped `.brush` group
+ * rather than by a CSS-module class. This overrides d3-brush's inline-ish defaults to match the
+ * chart chrome.
+ */
+.brush :global(.selection) {
+  fill: var(--text-muted);
+  fill-opacity: 0.18;
+  stroke: var(--baseline);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.brush :global(.handle) {
+  fill: var(--baseline);
+}
+
+.brush :global(.overlay) {
+  cursor: crosshair;
+}
+
 .empty {
   margin: var(--space-4) 0 0;
   font-size: 0.875rem;

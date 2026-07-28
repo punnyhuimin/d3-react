@@ -8,17 +8,14 @@ import * as d3 from 'd3';
 import { formatPercent, type CategoryPoint } from '@/lib/aggregate';
 import { buildDisplaySeries, buildGapSegments, type DisplayPoint } from '@/lib/missingData';
 import { nearestPoint } from '@/lib/nearestPoint';
+import { DEFAULT_Y_DOMAIN, xDomainFor, Y_TICK_COUNT } from '@/lib/domains';
 import { useResizeObserver } from '@/hooks/useResizeObserver';
 import { Axis } from '@/components/chart/Axis';
 import { Crosshair } from '@/components/chart/Crosshair';
 import { Tooltip } from '@/components/chart/Tooltip';
+import { FALLBACK_WIDTH, MAIN_MARGIN as MARGIN } from '@/components/chart/plotArea';
 import styles from '@/components/chart/chart.module.css';
 
-const MARGIN = { top: 16, right: 24, bottom: 36, left: 52 };
-/** The brief's default reading: the full 0–100% scale at 10% ticks. Phase 7 rescales on brush. */
-const Y_TICKS = d3.range(0, 101, 10);
-/** Used until the container reports a width, and permanently where `ResizeObserver` is absent. */
-const FALLBACK_WIDTH = 640;
 /** Matches the tooltip's max-width in CSS; the card flips rather than clipping the right edge. */
 const TOOLTIP_WIDTH = 220;
 
@@ -39,6 +36,13 @@ function describeGap(missing: number[]): string {
 export interface LineChartProps {
   points: CategoryPoint[];
   height?: number;
+  /**
+   * Overrides the observed category extent, so a brushed range shows exactly the window the reader
+   * selected rather than snapping out to the nearest categories inside it.
+   */
+  xDomain?: [number, number];
+  /** Defaults to the brief's full 0–100% scale; a brush selection tightens it. */
+  yDomain?: [number, number];
 }
 
 /**
@@ -50,7 +54,12 @@ export interface LineChartProps {
  * inside a gap, where it holds to a bracketing point instead of floating over an absence. Keyboard
  * has parity — arrows step, Home/End jump, Escape clears — and the pinned reading is announced.
  */
-export function LineChart({ points, height = 320 }: LineChartProps) {
+export function LineChart({
+  points,
+  height = 320,
+  xDomain,
+  yDomain = DEFAULT_Y_DOMAIN,
+}: LineChartProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>(FALLBACK_WIDTH);
   const [pinnedCategory, setPinnedCategory] = useState<number | null>(null);
   const series = useMemo(() => buildDisplaySeries(points), [points]);
@@ -58,21 +67,19 @@ export function LineChart({ points, height = 320 }: LineChartProps) {
 
   const first = series[0];
   const last = series.at(-1);
-  if (first === undefined || last === undefined) {
-    return <p className={styles.empty}>No categories to plot.</p>;
+  const observedDomain = xDomainFor(series);
+  if (first === undefined || last === undefined || observedDomain === null) {
+    return <p className={styles.empty}>No categories in this range.</p>;
   }
 
   const innerWidth = Math.max(width - MARGIN.left - MARGIN.right, 1);
   const innerHeight = Math.max(height - MARGIN.top - MARGIN.bottom, 1);
 
-  // A single-category dataset would otherwise collapse the domain to a point.
-  const xDomain: [number, number] =
-    first.category === last.category
-      ? [first.category - 0.5, last.category + 0.5]
-      : [first.category, last.category];
-
-  const x = d3.scaleLinear().domain(xDomain).range([0, innerWidth]);
-  const y = d3.scaleLinear().domain([0, 100]).range([innerHeight, 0]);
+  const x = d3
+    .scaleLinear()
+    .domain(xDomain ?? observedDomain)
+    .range([0, innerWidth]);
+  const y = d3.scaleLinear().domain(yDomain).range([innerHeight, 0]);
 
   const linePath = d3
     .line<DisplayPoint>()
@@ -143,7 +150,7 @@ export function LineChart({ points, height = 320 }: LineChartProps) {
           <Axis
             scale={y}
             orientation="left"
-            tickValues={Y_TICKS}
+            tickValues={y.ticks(Y_TICK_COUNT)}
             format={formatPercent}
             width={innerWidth}
             height={innerHeight}
