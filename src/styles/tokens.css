@@ -1,0 +1,81 @@
+/**
+ * Design tokens.
+ *
+ * Values come from the validated reference palette; the single series colour was checked against
+ * both surfaces with the palette validator (lightness band, chroma floor and >= 3:1 contrast all
+ * pass in light and dark). Every colour in the app is referenced through a role below, never as a
+ * raw hex, so the two themes swap in one place.
+ *
+ * Dark values are declared twice on purpose: the media query follows the OS setting, the
+ * `[data-theme]` scope follows an explicit toggle, and the toggle must win in both directions.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --page: #f9f9f7;
+  --surface-1: #fcfcfb;
+  --border: rgba(11, 11, 11, 0.1);
+
+  /* Ink */
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+
+  /* Chart chrome */
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+
+  /* Series */
+  --series-1: #2a78d6;
+  --focus-ring: #2a78d6;
+
+  /* Type */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Geometry */
+  --radius-card: 8px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light'])) {
+    color-scheme: dark;
+
+    --page: #0d0d0d;
+    --surface-1: #1a1a19;
+    --border: rgba(255, 255, 255, 0.1);
+
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+
+    --series-1: #3987e5;
+    --focus-ring: #3987e5;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --page: #0d0d0d;
+  --surface-1: #1a1a19;
+  --border: rgba(255, 255, 255, 0.1);
+
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+
+  --gridline: #2c2c2a;
+  --baseline: #383835;
+
+  --series-1: #3987e5;
+  --focus-ring: #3987e5;
+}
