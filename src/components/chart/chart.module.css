@@ -1,0 +1,74 @@
+/*
+ * Chart chrome is recessive and the data is the only loud thing: hairline solid gridlines one step
+ * off the surface, 2px round-joined series line, dots ringed in the surface colour so they stay
+ * legible where they sit on the line. Every colour resolves to a token, so dark mode swaps in
+ * `styles/tokens.css` rather than here.
+ */
+
+.container {
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+.chart {
+  display: block;
+  overflow: visible;
+}
+
+.baseline {
+  stroke: var(--baseline);
+  stroke-width: 1;
+}
+
+.tick {
+  stroke: var(--baseline);
+  stroke-width: 1;
+}
+
+.gridline {
+  stroke: var(--gridline);
+  stroke-width: 1;
+}
+
+.tickLabel {
+  fill: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.line {
+  fill: none;
+  stroke: var(--series-1);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The bridge under a gap: same hue, dashed and faint, so it reads as inference rather than data. */
+.gapLine {
+  fill: none;
+  stroke: var(--series-1);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 3 4;
+  opacity: 0.45;
+}
+
+.gapLabel {
+  fill: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+}
+
+.dot {
+  fill: var(--series-1);
+  stroke: var(--surface-1);
+  stroke-width: 2;
+}
+
+.empty {
+  margin: var(--space-4) 0 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}

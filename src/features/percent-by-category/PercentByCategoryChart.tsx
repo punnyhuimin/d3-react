@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import * as d3 from 'd3';
 import { userRecords, type UserRecord } from '@/data/users';
 import { aggregateByCategory } from '@/lib/aggregate';
+import { LineChart } from '@/components/chart/LineChart';
 import { DataTable } from '@/features/percent-by-category/DataTable';
 import styles from '@/features/percent-by-category/percentByCategory.module.css';
 
@@ -26,6 +27,7 @@ export function PercentByCategoryChart({ records = userRecords }: PercentByCateg
       <p className={styles.caption}>
         {grandTotal} total value from {records.length} users across {points.length} categories.
       </p>
+      <LineChart points={points} />
       <DataTable points={points} />
     </section>
   );
