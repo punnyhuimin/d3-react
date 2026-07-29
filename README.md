@@ -51,3 +51,7 @@ Two ordering rules in `jest.config.cjs` are load-bearing: `moduleNameMapper` is 
 the stylesheet stub sits above the aliases (otherwise an aliased `*.module.css` resolves to the real
 file and Jest parses CSS as JS), and `^d3$` maps to `d3.min.js` because d3 v7 is ESM-only under Jest
 — which is why the app imports `* as d3` rather than the subpackages.
+
+## AI Usage
+
+Used Claude to plan out and iterate the design and implementation. Used agent-browser for Claude to access the browser to resolve UI issues.
