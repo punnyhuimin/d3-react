@@ -17,7 +17,7 @@ import { FALLBACK_WIDTH, MAIN_MARGIN as MARGIN } from '@/components/chart/plotAr
 import styles from '@/components/chart/chart.module.css';
 
 /** Matches the tooltip's max-width in CSS; the card flips rather than clipping the right edge. */
-const TOOLTIP_WIDTH = 220;
+const TOOLTIP_WIDTH = 280;
 
 const formatCategory = d3.format('d');
 

@@ -103,7 +103,8 @@
 .tooltip {
   position: absolute;
   z-index: 1;
-  max-width: 220px;
+  width: max-content;
+  max-width: 280px;
   padding: var(--space-2) var(--space-3);
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -139,7 +140,8 @@
 .tooltipList dd {
   margin: 0;
   color: var(--text-secondary);
-  overflow-wrap: anywhere;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ---- Summary strip ---- */
