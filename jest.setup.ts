@@ -1,4 +1,14 @@
 import '@testing-library/jest-dom';
+import { installMatchMedia } from './src/testing/matchMedia';
+
+/**
+ * jsdom ships no `window.matchMedia`, so anything reading `prefers-color-scheme` throws on access
+ * rather than reporting a preference. The shim stands in, reporting light by default. Reinstalling
+ * before each test keeps one test's simulated OS change from leaking into the next; the call at
+ * module scope covers anything a test file evaluates while importing.
+ */
+installMatchMedia();
+beforeEach(installMatchMedia);
 
 /**
  * jsdom ships no `PointerEvent`. Testing Library then falls back to constructing a bare `Event`,

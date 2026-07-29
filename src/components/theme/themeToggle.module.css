@@ -1,0 +1,41 @@
+/*
+ * The same control treatment as the chart's Reset button, restated here rather than imported: the
+ * chart module is chart-scoped, and a page-level control reaching into it would blur that boundary.
+ */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 3px var(--space-2);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.toggle:hover {
+  border-color: var(--baseline);
+  color: var(--text-primary);
+}
+
+.toggle[aria-pressed='true'] {
+  color: var(--text-primary);
+  border-color: var(--baseline);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Sized against the label rather than inheriting it, so the two glyphs sit on the same footprint. */
+.icon {
+  width: 1em;
+  font-size: 0.875rem;
+  line-height: 1;
+  text-align: center;
+}

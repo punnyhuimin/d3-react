@@ -18,7 +18,13 @@
   margin: 0 auto;
 }
 
+/* Title block left, theme control right — the same split as the chart's `.summaryHeader`, but
+   aligned to the top rather than the baseline because the title block runs to two lines. */
 .header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
   margin-bottom: var(--space-6);
 }
 
