@@ -6,8 +6,7 @@ export interface DataTableProps {
 }
 
 /**
- * The accessible view of the same numbers the chart plots. Tooltips enhance; they never gate, so the
- * merged user names are permanently visible here rather than only on hover.
+ * View existing data in a table. Does not react to the filter.
  */
 export function DataTable({ points }: DataTableProps) {
   return (

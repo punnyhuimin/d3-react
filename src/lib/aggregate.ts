@@ -15,8 +15,7 @@ export interface CategoryPoint {
 const percentFormat = d3.format('.1~f');
 
 /**
- * The single formatter for every percentage on screen, so axis ticks (`0%`) and readouts (`22.6%`)
- * can never drift apart. Input is on a 0–100 scale, matching {@link CategoryPoint.percent}.
+ * Formats a percentage on a 0–100 scale for display.
  */
 export function formatPercent(percent: number): string {
   return `${percentFormat(percent)}%`;
@@ -24,7 +23,7 @@ export function formatPercent(percent: number): string {
 
 /**
  * Groups the raw records by category and computes each category's share of the grand total.
- * Categories come back in strictly ascending order, ready to plot against a linear X axis.
+ * Categories come back in ascending order to plot against a linear X axis.
  */
 export function aggregateByCategory(records: UserRecord[]): CategoryPoint[] {
   const grandTotal = d3.sum(records, (record) => record.value);
