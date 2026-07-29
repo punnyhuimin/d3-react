@@ -68,12 +68,17 @@ export function LineChart({
   const first = series[0];
   const last = series.at(-1);
   const observedDomain = xDomainFor(series);
-  if (first === undefined || last === undefined || observedDomain === null) {
-    return <p className={styles.empty}>No categories in this range.</p>;
-  }
 
   const innerWidth = Math.max(width - MARGIN.left - MARGIN.right, 1);
   const innerHeight = Math.max(height - MARGIN.top - MARGIN.bottom, 1);
+
+  if (first === undefined || last === undefined || observedDomain === null) {
+    return (
+      <div ref={ref} className={styles.container} style={{ height }}>
+        <p className={styles.empty}>No categories in this range.</p>
+      </div>
+    );
+  }
 
   const x = d3
     .scaleLinear()
