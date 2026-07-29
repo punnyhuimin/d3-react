@@ -39,10 +39,7 @@ export function PercentByCategoryChart({ records = userRecords }: PercentByCateg
   );
 
   return (
-    <section className={styles.card} aria-labelledby="percent-by-category-heading">
-      <h2 id="percent-by-category-heading" className={styles.heading}>
-        Percent value by category
-      </h2>
+    <section className={styles.card}>
       <p className={styles.caption}>
         {grandTotal} total value from {records.length} users across {points.length} categories.
         {selection === null
