@@ -5,19 +5,14 @@
  * hold this module together. Nothing sensitive is stored — the only key is a theme name. And every
  * value read back out is untrusted input, so it passes through `parseTheme`, a strict equality
  * allowlist, before it can become a `Theme`. A tampered, stale or foreign value is not an error; it
- * simply reads as "no preference" and the app falls back to the OS setting.
+ * will read as "no preference" and the app falls back to the OS setting.
  *
- * The validated value reaches the page only through `setAttribute`, which performs no HTML or CSS
- * parsing. There is deliberately no `innerHTML`, no injected `<style>`, no interpolated selector and
- * no `eval` anywhere in this file — those are the sinks that would turn a poisoned storage entry
- * into something that executes.
  */
 
 export type Theme = 'light' | 'dark';
 
 /**
- * Namespaced, because a bare `theme` key collides with anything else deployed to the same origin —
- * a `*.github.io` account, say, where a neighbouring app could otherwise read or clobber it.
+ * Namespaced, to prevent key collision across sites
  */
 export const STORAGE_KEY = 'd3-react:theme';
 
@@ -26,17 +21,15 @@ const DARK_QUERY = '(prefers-color-scheme: dark)';
 const THEME_ATTRIBUTE = 'data-theme';
 
 /**
- * The allowlist, and the only place an arbitrary string is allowed to become a `Theme`. Exact
- * equality against the two literals — no regex, no trimming, no case folding, no cast.
+ * To guard against hostile values in `localStorage`, the only way a string can become a `Theme` is to
+ * pass through this strict validation function.
  */
 function parseTheme(value: string | null): Theme | null {
   return value === 'light' || value === 'dark' ? value : null;
 }
 
 /**
- * The pinned preference, or `null` to follow the OS. Never throws: reading `window.localStorage` is
- * itself a `SecurityError` under Safari private browsing and in partitioned iframes, so the access
- * sits inside the `try` alongside the read.
+ * The pinned preference, or `null` to follow the OS.
  */
 export function readStoredTheme(): Theme | null {
   try {
@@ -46,7 +39,7 @@ export function readStoredTheme(): Theme | null {
   }
 }
 
-/** Persists a pinned preference. Only ever writes one of the two literals. Never throws. */
+/** Persists a pinned preference */
 export function writeStoredTheme(theme: Theme): void {
   try {
     window.localStorage.setItem(STORAGE_KEY, theme);
@@ -82,7 +75,7 @@ export function watchSystemTheme(onChange: (theme: Theme) => void): () => void {
 
 /**
  * Writes the preference to the root element, where `styles/tokens.css` picks it up. `null` removes
- * the attribute so the `prefers-color-scheme` media query resumes control. Idempotent.
+ * the attribute so the `prefers-color-scheme` media query resumes control.
  */
 export function applyTheme(preference: Theme | null): void {
   const root = document.documentElement;
@@ -96,8 +89,7 @@ export function applyTheme(preference: Theme | null): void {
 /**
  * Called once from the entry point, before React renders. The body holds nothing but an empty root
  * element until the bundle runs, so setting the attribute here lands it ahead of first paint and
- * there is no flash of the wrong theme — without the inline `<head>` script that trick usually
- * needs, which would force `unsafe-inline` into any future CSP.
+ * there is no flash of the wrong theme
  */
 export function applyStoredTheme(): void {
   applyTheme(readStoredTheme());

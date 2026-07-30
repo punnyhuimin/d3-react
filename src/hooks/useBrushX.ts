@@ -19,8 +19,7 @@ export interface BrushX {
 }
 
 /**
- * The single exception to "React owns the DOM". `d3.brushX` is inherently imperative and stateful —
- * it manages its own overlay, selection rect and handles — so it is quarantined here rather than
+ * `d3.brushX` manages its own overlay, selection rect and handles — so it is quarantined here rather than
  * spread through a component.
  *
  * The scale and callback are read from a ref at event time. They are new objects on every render,
@@ -32,9 +31,7 @@ export function useBrushX({ scale, width, height, onSelect }: UseBrushXOptions):
   const behaviour = useRef<d3.BrushBehavior<unknown> | null>(null);
   const latest = useRef({ scale, onSelect });
 
-  useEffect(() => {
-    latest.current = { scale, onSelect };
-  });
+  latest.current = { scale, onSelect };
 
   useEffect(() => {
     const node = ref.current;
@@ -62,6 +59,7 @@ export function useBrushX({ scale, width, height, onSelect }: UseBrushXOptions):
     group.call(brush);
     behaviour.current = brush;
 
+    // Clean up D3 event listeners and remove the overlay, selection and handles.
     return () => {
       group.on('.brush', null);
       group.selectAll('*').remove();

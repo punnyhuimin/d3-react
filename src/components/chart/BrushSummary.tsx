@@ -20,9 +20,7 @@ export interface BrushSummaryProps {
  * The context strip under the main chart: drag across it to filter, and the main chart narrows its
  * X range and rescales Y to what is left.
  *
- * It always draws the whole series regardless of the current filter — that is the entire point of a
- * summary. Filtering it too would leave the selection with no context to sit against, and dragging
- * would feed on its own output.
+ * It always draws the whole series regardless of the current filter.
  */
 export function BrushSummary({ points, selection, onSelect, height = 64 }: BrushSummaryProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>(FALLBACK_WIDTH);
