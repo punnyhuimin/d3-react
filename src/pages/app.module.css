@@ -1,4 +1,3 @@
-/* The page owns the body reset, so the themed surface reaches the edges of the viewport. */
 :global(body) {
   margin: 0;
 }
