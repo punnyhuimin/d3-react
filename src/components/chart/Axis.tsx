@@ -6,8 +6,8 @@ export interface AxisProps {
   /** `bottom` runs along the foot of the plot area, `left` up its side. */
   orientation: 'bottom' | 'left';
   /**
-   * Every tick to draw, given explicitly rather than left to `scale.ticks()`. That is what lets the
-   * X axis label a missing category: the slot is ticked and named, it simply carries no point.
+   * Every tick to draw, given explicitly rather than left to `scale.ticks()`.
+   * Helps with the X axis labelling of missing category/ categories.
    */
   tickValues: number[];
   format: (value: number) => string;
@@ -20,8 +20,7 @@ export interface AxisProps {
 
 /**
  * One declarative axis, used for both X and Y. Rendered from `tickValues` as ordinary JSX rather
- * than by `d3.axisBottom`, so React stays the only writer of these nodes and the recessive
- * grid/tick styling is ours rather than D3's defaults.
+ * than by `d3.axisBottom`. Overrides D3's default styling.
  */
 export function Axis({
   scale,

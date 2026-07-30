@@ -62,6 +62,7 @@ export function LineChart({
 }: LineChartProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>(FALLBACK_WIDTH);
   const [pinnedCategory, setPinnedCategory] = useState<number | null>(null);
+  const [isClickSelected, setIsClickSelected] = useState(false);
   const series = useMemo(() => buildDisplaySeries(points), [points]);
   const gaps = useMemo(() => buildGapSegments(points), [points]);
 
@@ -98,42 +99,51 @@ export function LineChart({
       : ` Categories ${gaps.map((gap) => describeGap(gap.missing)).join(', ')} have no records.`;
 
   // Resolved by category rather than held as an object, so the pin survives the points array being
-  // rebuilt — which is exactly what the Phase 7 brush will do on every drag.
+  // rebuilt.
   const active = points.find((point) => point.category === pinnedCategory) ?? null;
 
   function pinFromPointer(event: ReactPointerEvent<SVGRectElement>) {
+    if (isClickSelected) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     const snapped = nearestPoint(points, x.invert(event.clientX - bounds.left));
     setPinnedCategory(snapped?.category ?? null);
   }
 
+  function handleClick(event: ReactPointerEvent<SVGRectElement>) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const snapped = nearestPoint(points, x.invert(event.clientX - bounds.left));
+    setPinnedCategory(snapped?.category ?? null);
+    setIsClickSelected(true);
+  }
+
   function handleKeyDown(event: ReactKeyboardEvent<SVGSVGElement>) {
     if (event.key === 'Escape') {
       setPinnedCategory(null);
+      setIsClickSelected(false);
       return;
     }
 
     const current = points.findIndex((point) => point.category === pinnedCategory);
-    let next: number;
+    let snapPointIndex: number;
     switch (event.key) {
       case 'ArrowRight':
-        next = current < 0 ? 0 : Math.min(current + 1, points.length - 1);
+        snapPointIndex = current < 0 ? 0 : Math.min(current + 1, points.length - 1);
         break;
       case 'ArrowLeft':
-        next = current < 0 ? points.length - 1 : Math.max(current - 1, 0);
+        snapPointIndex = current < 0 ? points.length - 1 : Math.max(current - 1, 0);
         break;
       case 'Home':
-        next = 0;
+        snapPointIndex = 0;
         break;
       case 'End':
-        next = points.length - 1;
+        snapPointIndex = points.length - 1;
         break;
       default:
         return;
     }
 
     event.preventDefault();
-    setPinnedCategory(points[next]?.category ?? null);
+    setPinnedCategory(points[snapPointIndex]?.category ?? null);
   }
 
   const anchorX = active === null ? 0 : MARGIN.left + x(active.category);
@@ -149,7 +159,10 @@ export function LineChart({
         aria-label={`Percent of total value by category, ${formatCategory(first.category)} to ${formatCategory(last.category)}.${gapNote} Use the arrow keys to step through the categories; the same figures are listed in the table below.`}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        onBlur={() => setPinnedCategory(null)}
+        onBlur={() => {
+          setPinnedCategory(null);
+          setIsClickSelected(false);
+        }}
       >
         <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
           <Axis
@@ -212,7 +225,12 @@ export function LineChart({
             width={innerWidth}
             height={innerHeight}
             onPointerMove={pinFromPointer}
-            onPointerLeave={() => setPinnedCategory(null)}
+            onPointerLeave={() => {
+              if (!isClickSelected) {
+                setPinnedCategory(null);
+              }
+            }}
+            onClick={handleClick}
           />
         </g>
       </svg>
@@ -229,6 +247,27 @@ export function LineChart({
           ? ''
           : `Category ${active.category}, ${formatPercent(active.percent)} of the total, value ${active.total}, ${active.label}.`}
       </p>
+      <div className={styles.keyboardHint}>
+        <p className={styles.keyboardHintTitle}>Keyboard navigation</p>
+        <ul className={styles.keyboardHintList}>
+          <li className={styles.keyboardHintItem}>
+            <kbd className={styles.keyboardHintKey}>← →</kbd>
+            <span className={styles.keyboardHintAction}>Step through categories</span>
+          </li>
+          <li className={styles.keyboardHintItem}>
+            <kbd className={styles.keyboardHintKey}>Home</kbd>
+            <span className={styles.keyboardHintAction}>Jump to first category</span>
+          </li>
+          <li className={styles.keyboardHintItem}>
+            <kbd className={styles.keyboardHintKey}>End</kbd>
+            <span className={styles.keyboardHintAction}>Jump to last category</span>
+          </li>
+          <li className={styles.keyboardHintItem}>
+            <kbd className={styles.keyboardHintKey}>Esc</kbd>
+            <span className={styles.keyboardHintAction}>Clear selection</span>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

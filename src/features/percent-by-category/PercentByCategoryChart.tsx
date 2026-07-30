@@ -39,16 +39,28 @@ export function PercentByCategoryChart({ records = userRecords }: PercentByCateg
   );
 
   return (
-    <section className={styles.card}>
-      <p className={styles.caption}>
-        {grandTotal} total value from {records.length} users across {points.length} categories.
-        {selection === null
-          ? ''
-          : ` Filtered to ${visiblePoints.length} of ${points.length}; the table below stays complete.`}
-      </p>
-      <LineChart points={visiblePoints} xDomain={selection ?? undefined} yDomain={yDomain} />
-      <BrushSummary points={points} selection={selection} onSelect={setSelection} />
-      <DataTable points={points} />
-    </section>
+    <div>
+      <section className={styles.card}>
+        <p className={styles.caption}>
+          {grandTotal} total value from {records.length} users across {points.length} categories.
+          {selection === null
+            ? ''
+            : ` ${visiblePoints.length} of ${points.length} categories visible on the chart.`}
+        </p>
+        <LineChart points={visiblePoints} xDomain={selection ?? undefined} yDomain={yDomain} />
+        <BrushSummary points={points} selection={selection} onSelect={setSelection} />
+        <br />
+      </section>
+      <header className={styles.header}>
+        <h2 className={styles.title}>Tabulation of data</h2>
+        <p className={styles.caption}>
+          The table below is not affected by the brush selection, so it always shows the full
+          dataset.
+        </p>
+      </header>
+      <section className={styles.card}>
+        <DataTable points={points} />
+      </section>
+    </div>
   );
 }

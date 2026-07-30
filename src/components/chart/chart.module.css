@@ -254,3 +254,45 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Keyboard shortcuts legend */
+.keyboardHint {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.keyboardHintTitle {
+  margin: 0 0 var(--space-2) 0;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+}
+
+.keyboardHintList {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-1) var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.keyboardHintItem {
+  display: contents;
+}
+
+.keyboardHintKey {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.keyboardHintAction {
+  color: var(--text-secondary);
+}

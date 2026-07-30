@@ -30,10 +30,10 @@ export function xDomainFor(series: DisplayPoint[]): [number, number] | null {
 /**
  * The Y domain the main chart should read against.
  *
- * Unfiltered it is the flat 0–100%, per the brief. Brushing zooms to the selection's own extent —
+ * Unfiltered it is the flat 0–100%. Brushing zooms to the selection's own extent —
  * the only reading under which filtering on the Y axis means anything — padded and `.nice()`d so
- * the ticks stay round. Degenerate selections are the interesting cases: an empty one has no extent
- * to zoom to, and a single-point one has a span of zero, which would collapse the axis onto the
+ * the ticks are always rounded to the nearest whole number. A filter that has no data set has no extent
+ * to zoom to, and a single point has a span of zero, which would collapse the axis onto the
  * point. Both fall back to something readable rather than producing an unrenderable domain.
  */
 export function yDomainFor(points: CategoryPoint[], isFiltered: boolean): [number, number] {

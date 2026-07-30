@@ -7,12 +7,7 @@ export function App() {
     <main className={styles.page}>
       <div className={styles.column}>
         <header className={styles.header}>
-          <div>
-            <h1 className={styles.title}>Percent value vs category</h1>
-            <p className={styles.subtitle}>
-              Every figure below is derived from the source dataset at runtime.
-            </p>
-          </div>
+          <h1 className={styles.title}>Percent value vs category</h1>
           <ThemeToggle />
         </header>
         <PercentByCategoryChart />
