@@ -17,8 +17,7 @@
   margin: 0 auto;
 }
 
-/* Title block left, theme control right — the same split as the chart's `.summaryHeader`, but
-   aligned to the top rather than the baseline because the title block runs to two lines. */
+/* Title block left, theme control right */
 .header {
   display: flex;
   align-items: flex-start;
