@@ -57,6 +57,7 @@ export function PercentByCategoryChart({ records = userRecords }: PercentByCateg
           The table below is not affected by the brush selection, so it always shows the full
           dataset.
         </p>
+        <br />
       </header>
       <section className={styles.card}>
         <DataTable points={points} />

@@ -16,6 +16,12 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
+  "overrides": {
+    "brace-expansion": "^5.0.9",
+    "minimatch": "^10.2.6",
+    "test-exclude": "^8.0.0",
+    "babel-plugin-istanbul": "^8.0.0"
+  },
   "dependencies": {
     "d3": "^7.9.0",
     "react": "^19.1.0",
@@ -32,7 +38,7 @@
     "@types/jest": "^29.5.14",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "eslint": "^10.8.0",
+    "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
@@ -40,7 +46,7 @@
     "globals": "^16.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.4.2",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.5.3",
     "ts-jest": "^29.1.2",
     "typescript": "^5.8.2",

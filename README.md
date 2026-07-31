@@ -8,6 +8,14 @@ out the grand total with `d3.sum`, and `src/lib/missingData.ts` detects the cate
 skips so they can be drawn as genuinely missing rather than bridged over. Nothing is precomputed or
 transcribed into source.
 
+## First time users
+
+Node: V24.18.1
+NPM: V11.4.2
+
+1. Open a terminal/ Powershell and run `npm install`
+2. To start the app, run `npm run dev`. It should be hosted at localhost:3000
+
 ## Scripts
 
 - `npm run dev` — start the dev server
@@ -107,3 +115,4 @@ I made use of [/thermo-nuclear-code-quality-review](https://github.com/cursor/pl
 ## Improvements
 
 - Assuming that there are no further pages to be made, the page folder can be removed, as there is only a single page.
+- Fixed high package vulnerability with overrides in package.json. Once `eslint-plugin-jsx-a11y` and `eslint-plugin-react` move off `minimatch@^3`, will need to drop the minimatch override.

@@ -8,8 +8,9 @@ beforeEach(() => {
   document.documentElement.removeAttribute('data-theme');
 });
 
+/** Matched on either label, since the button names the theme in effect rather than the action. */
 function toggle(): HTMLElement {
-  return screen.getByRole('button', { name: /dark mode/i });
+  return screen.getByRole('button', { name: /^(light|dark) mode$/i });
 }
 
 describe('ThemeToggle', () => {
@@ -26,6 +27,16 @@ describe('ThemeToggle', () => {
     render(<ThemeToggle />);
 
     expect(toggle()).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('names the theme in effect rather than the one a press would apply', () => {
+    render(<ThemeToggle />);
+
+    expect(toggle()).toHaveAccessibleName('Light mode');
+
+    fireEvent.click(toggle());
+
+    expect(toggle()).toHaveAccessibleName('Dark mode');
   });
 
   it('pins the opposite theme and persists it', () => {

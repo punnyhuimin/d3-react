@@ -62,11 +62,11 @@ describe('PercentByCategoryChart', () => {
 
   it('says how much of the data the filter is showing', () => {
     const { container } = render(<PercentByCategoryChart />);
-    expect(screen.queryByText(/filtered to/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/visible on the chart/i)).not.toBeInTheDocument();
 
     dragBrush(brushGroupOf(container), 100, 260);
 
-    expect(screen.getByText(/filtered to/i)).toBeInTheDocument();
+    expect(screen.getByText(/visible on the chart/i)).toBeInTheDocument();
   });
 
   it('restores the full range and the full scale when Reset is pressed', async () => {
@@ -80,7 +80,7 @@ describe('PercentByCategoryChart', () => {
 
     expect(plottedCategories(container)).toBe(points.length);
     expect(percentTicks(container)).toContain('100%');
-    expect(screen.queryByText(/filtered to/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/visible on the chart/i)).not.toBeInTheDocument();
   });
 
   it('holds the whole series in the summary while the main chart is filtered', () => {
