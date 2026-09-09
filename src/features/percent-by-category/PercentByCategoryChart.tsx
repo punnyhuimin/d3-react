@@ -40,6 +40,8 @@ export function PercentByCategoryChart({ records = userRecords }: PercentByCateg
 
   return (
     <div>
+      {/* NOTE: Move this to a separate component so that the selection would not re-render the data table.
+      It should only affect the first section components.  */}
       <section className={styles.card}>
         <p className={styles.caption}>
           {grandTotal} total value from {records.length} users across {points.length} categories.
@@ -61,6 +63,8 @@ export function PercentByCategoryChart({ records = userRecords }: PercentByCateg
       </header>
       <section className={styles.card}>
         <DataTable points={points} />
+        {/* <DataTable points={visiblePoints} /> */}
+        {/* Use above if they request for filtering */}
       </section>
     </div>
   );

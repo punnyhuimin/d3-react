@@ -46,7 +46,8 @@ export function findMissingCategories(points: CategoryPoint[]): number[] {
  * where the category is missing.
  */
 export function buildDisplaySeries(points: CategoryPoint[]): DisplayPoint[] {
-  const extent = categoryExtent(points);
+  const extent = categoryExtent(points); // this is the full range of the data
+  console.log(extent, 'extent');
   if (extent === null) {
     return [];
   }
@@ -79,5 +80,6 @@ export function buildGapSegments(points: CategoryPoint[]): GapSegment[] {
     }
   }
 
+  console.log(segments, 'these are the gap segments');
   return segments;
 }

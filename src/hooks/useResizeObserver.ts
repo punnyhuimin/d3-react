@@ -35,7 +35,7 @@ export function useResizeObserver<T extends Element>(fallbackWidth: number): Res
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [fallbackWidth]);
+  }, []);
 
   return { ref, width };
 }

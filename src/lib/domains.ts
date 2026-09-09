@@ -37,9 +37,9 @@ export function xDomainFor(series: DisplayPoint[]): [number, number] | null {
  * point. Both fall back to something readable rather than producing an unrenderable domain.
  */
 export function yDomainFor(points: CategoryPoint[], isFiltered: boolean): [number, number] {
-  if (!isFiltered) {
-    return DEFAULT_Y_DOMAIN;
-  }
+  // if (!isFiltered) {
+  //   return DEFAULT_Y_DOMAIN;
+  // }
 
   const [min, max] = d3.extent(points, (point) => point.percent);
   if (min === undefined || max === undefined) {

@@ -68,7 +68,7 @@ export function LineChart({
 
   const first = series[0];
   const last = series.at(-1);
-  const observedDomain = xDomainFor(series);
+  const observedDomain = xDomainFor(series); // for the visible x axis
 
   const innerWidth = Math.max(width - MARGIN.left - MARGIN.right, 1);
   const innerHeight = Math.max(height - MARGIN.top - MARGIN.bottom, 1);
@@ -84,7 +84,8 @@ export function LineChart({
   const x = d3
     .scaleLinear()
     .domain(xDomain ?? observedDomain)
-    .range([0, innerWidth]);
+    .range([0, innerWidth]); // It takes the full width, converts it to pixels mapped to the domain(units)
+  // e.g. 500px width with domain [1, 10] means each unit is 50px. So category 2 is at 100px, category 3 at 150px, etc.
   const y = d3.scaleLinear().domain(yDomain).range([innerHeight, 0]);
 
   const linePath = d3
@@ -155,7 +156,8 @@ export function LineChart({
         className={styles.chart}
         width={width}
         height={height}
-        role="img"
+        role="listbox" // NOTE: wrongly set role="img" previously,
+        // even though the svg actually has things that users can interact with.
         aria-label={`Percent of total value by category, ${formatCategory(first.category)} to ${formatCategory(last.category)}.${gapNote} Use the arrow keys to step through the categories; the same figures are listed in the table below.`}
         tabIndex={0}
         onKeyDown={handleKeyDown}
@@ -164,6 +166,7 @@ export function LineChart({
           setIsClickSelected(false);
         }}
       >
+        <title id="line-chart-title">Percent of total value by category</title>
         <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
           <Axis
             scale={y}
@@ -202,8 +205,10 @@ export function LineChart({
             </g>
           ))}
           {linePath === null ? null : <path className={styles.line} d={linePath} />}
-          {points.map((point) => (
+          {points.map((point, i) => (
             <circle
+              // tabIndex={i}
+              // role="option"
               key={point.category}
               className={styles.dot}
               cx={x(point.category)}

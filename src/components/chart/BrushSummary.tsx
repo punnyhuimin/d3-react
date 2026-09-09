@@ -42,6 +42,7 @@ export function BrushSummary({ points, selection, onSelect, height = 64 }: Brush
     scale: x,
     width: innerWidth,
     height: innerHeight,
+    selection,
     onSelect,
   });
 

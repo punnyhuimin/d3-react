@@ -1,5 +1,8 @@
 import { fireEvent } from '@testing-library/react';
 
+// NOTE: This test is brittle. If D3 library updates, the interactions will need to be updated
+// May want to use Playwright instead.
+
 /**
  * Drives a real `d3.brushX` drag in jsdom, so the brush is tested through the same path a user
  * takes rather than by reaching into D3's internals.

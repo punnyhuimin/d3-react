@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { installMatchMedia } from './src/testing/matchMedia';
+// NOTE: Should use Playwright testing instead to test for Pointer events
 
 /**
  * jsdom ships no `window.matchMedia`, so anything reading `prefers-color-scheme` throws on access

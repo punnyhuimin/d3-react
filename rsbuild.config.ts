@@ -1,9 +1,17 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import path from 'node:path';
+import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
 
 export default defineConfig({
   plugins: [pluginReact()],
+  tools: {
+    rspack(config, { appendPlugins }) {
+      if (process.env.RSDOCTOR) {
+        appendPlugins(new RsdoctorRspackPlugin());
+      }
+    },
+  },
   html: {
     title: 'd3-react',
   },

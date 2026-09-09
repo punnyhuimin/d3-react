@@ -36,13 +36,12 @@ export function aggregateByCategory(records: UserRecord[]): CategoryPoint[] {
     }),
     (record) => record.category,
   );
-
   return grouped
     .sort(([a], [b]) => d3.ascending(a, b))
     .map(([category, { users, total }]) => ({
       category,
       users,
-      label: users.join(', '),
+      label: Array.from(new Set(users)).join(', '),
       total,
       percent: grandTotal === 0 ? 0 : (total / grandTotal) * 100,
     }));

@@ -116,3 +116,4 @@ I made use of [/thermo-nuclear-code-quality-review](https://github.com/cursor/pl
 
 - Assuming that there are no further pages to be made, the page folder can be removed, as there is only a single page.
 - Fixed high package vulnerability with overrides in package.json. Once `eslint-plugin-jsx-a11y` and `eslint-plugin-react` move off `minimatch@^3`, will need to drop the minimatch override.
+- The total sum is incorrect as the data was rounded to the up to nearest one dp. It sums up to >1%. I should've put a disclaimer, or only do rounding on the display but allow users to see the exact precision.
